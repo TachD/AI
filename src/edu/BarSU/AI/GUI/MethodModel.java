@@ -7,18 +7,18 @@ import javafx.beans.property.SimpleStringProperty;
 /**
  * Created by Govor Alexander on 30.04.2017.
  */
-public class MethodData {
+public class MethodModel {
     private final SimpleStringProperty nameMethod;
     private final SimpleIntegerProperty coastMethod;
     private final SimpleStringProperty routeMethod;
     private final SimpleIntegerProperty iterationMethod;
     private final SimpleLongProperty timeMethod;
 
-    public MethodData(String nameMethod,
-                      int coastMethod,
-                      String routeMethod,
-                      int iterationMethod,
-                      long timeMethod) {
+    public MethodModel(String nameMethod,
+                       int coastMethod,
+                       String routeMethod,
+                       int iterationMethod,
+                       long timeMethod) {
         this.nameMethod = new SimpleStringProperty(nameMethod);
         this.coastMethod = new SimpleIntegerProperty(coastMethod);
         this.routeMethod = new SimpleStringProperty(routeMethod);

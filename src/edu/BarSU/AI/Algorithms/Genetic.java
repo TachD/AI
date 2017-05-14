@@ -1,4 +1,4 @@
-package edu.BarSU.AI.GUI.edu.BarSU.AI.Algorithms;
+package edu.BarSU.AI.Algorithms;
 
 import java.util.ArrayList;
 import java.util.Random;

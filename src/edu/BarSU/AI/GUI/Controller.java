@@ -1,17 +1,15 @@
 package edu.BarSU.AI.GUI;
 
-import edu.BarSU.AI.GUI.edu.BarSU.AI.Algorithms.*;
+import edu.BarSU.AI.Algorithms.*;
+import edu.BarSU.AI.Algorithms.Support.*;
 
 import java.util.ArrayList;
 
 import javafx.fxml.FXML;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
-
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
@@ -25,32 +23,32 @@ public class Controller {
     @FXML
     private ListView<GraphPoint> lvPoint;
     @FXML
-    private TableView<MethodData> tvMethodsData;
+    private TableView<MethodModel> tvMethodsData;
     @FXML
-    private TableColumn<MethodData, String> tcMethodName;
+    private TableColumn<MethodModel, String> tcMethodName;
     @FXML
-    private TableColumn<MethodData, Integer> tcCoast;
+    private TableColumn<MethodModel, Integer> tcCoast;
     @FXML
-    private TableColumn<MethodData, String> tcWay;
+    private TableColumn<MethodModel, String> tcWay;
     @FXML
-    private TableColumn<MethodData, Integer> tcIteration;
+    private TableColumn<MethodModel, Integer> tcIteration;
     @FXML
-    private TableColumn<MethodData, Integer> tcTime;
+    private TableColumn<MethodModel, Integer> tcTime;
 
-    ObservableList<MethodData> methodDataList = FXCollections.observableArrayList();
+    ObservableList<MethodModel> methodDataList = FXCollections.observableArrayList();
 
     @FXML
     public void initialize(){
         tcMethodName.setCellValueFactory(
-                new PropertyValueFactory<MethodData, String>("nameMethod"));
+                new PropertyValueFactory<MethodModel, String>("nameMethod"));
         tcCoast.setCellValueFactory(
-                new PropertyValueFactory<MethodData, Integer>("costMethod"));
+                new PropertyValueFactory<MethodModel, Integer>("costMethod"));
         tcWay.setCellValueFactory(
-                new PropertyValueFactory<MethodData, String>("wayMethod"));
+                new PropertyValueFactory<MethodModel, String>("wayMethod"));
         tcIteration.setCellValueFactory(
-                new PropertyValueFactory<MethodData, Integer>("iterationMethod"));
+                new PropertyValueFactory<MethodModel, Integer>("iterationMethod"));
         tcTime.setCellValueFactory(
-                new PropertyValueFactory<MethodData, Integer>("timeMethod"));
+                new PropertyValueFactory<MethodModel, Integer>("timeMethod"));
 
         tvMethodsData.setItems(methodDataList);
 
@@ -88,18 +86,20 @@ public class Controller {
 
         ObservableList<XYChart.Series<Number, Number>> lineChartData = lchGraph.getData();
         lineChartData.clear();
-        //
+
         double[][] sourceMatrix = getMatrixCoast();
+
         // Genetic method
         long methodTime = System.nanoTime();
         ArrayList<Integer> geneticData = Genetic.StartMethod(sourceMatrix, 17, 100000);
         methodTime = System.nanoTime() - methodTime;
         calculateMethod(geneticData,  "Генетический", methodTime);
+
         // Ant method
-        long methodTime1 = System.nanoTime();
+        methodTime = System.nanoTime();
         ArrayList<Integer> antData = AntColony.StartMethod(sourceMatrix, 1000, 0.3, 0.4, 0.6);
-        methodTime1 = System.nanoTime() - methodTime1;
-        calculateMethod(antData,  "Муравьиный", methodTime1);
+        methodTime = System.nanoTime() - methodTime;
+        calculateMethod(antData,  "Муравьиный", methodTime);
     }
 
     private void calculateMethod(ArrayList<Integer> methodData, String methodName, long methodTime) {
@@ -109,7 +109,7 @@ public class Controller {
             strRoute.append(methodData.get(i) + "-");
         strRoute.append(methodData.get(0));
 
-        methodDataList.add(new MethodData(
+        methodDataList.add(new MethodModel(
                 methodName,
                 methodData.get(methodData.size() - 2),
                 strRoute.toString(),
